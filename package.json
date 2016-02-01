@@ -1,0 +1,31 @@
+{
+  "name": "4l-trophy",
+  "version": "1.0.0",
+  "description": "Tender for 4l trophy",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baloran/4l-trophy.git"
+  },
+  "author": "Arnaud Allouis aka Baloran <hello@baloran.fr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/baloran/4l-trophy/issues"
+  },
+  "homepage": "https://github.com/baloran/4l-trophy#readme",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "config": "^1.19.0",
+    "express": "^4.13.4",
+    "express-handlebars": "^3.0.0",
+    "moment": "^2.11.1",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.0.0",
+    "sequelize": "^3.19.0",
+    "serve-favicon": "^2.3.0"
+  }
+}
