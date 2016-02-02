@@ -1,15 +1,18 @@
 var Sequelize = require('sequelize');
 
 module.exports = function (sequelize, Sequelize) {
-  return sequelize.define('Bet', {
+  return sequelize.define('BetUser', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    date: Sequelize.DATE,
-    type: Sequelize.STRING,
-    type_id: Sequelize.INTEGER,
-    value: Sequelize.STRING
+    value: Sequelize.INTEGER,
+    bet_id: {
+      type: Sequelize.INTEGER
+    },
+    user_id:{
+      type: Sequelize.INTEGER
+    },
   });
 }

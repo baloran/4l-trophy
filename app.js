@@ -5,10 +5,12 @@
  */
 
 // Require Express
-var express = require('express')
+var express = require('express');
 
 // App
 var app = express();
+
+var path = require('path');
 
 // Configuration
 require('./core/auth')(app);
