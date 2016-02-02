@@ -22,6 +22,8 @@ homeRoutes = function () {
         res.redirect('/');
     });
 
+    router.get('/bet', home.bet);
+
     return router;
 };
 
