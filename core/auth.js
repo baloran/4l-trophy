@@ -25,10 +25,23 @@ module.exports = function (app) {
   passport.use(new FacebookStrategy({
     clientID: config.get('facebook.app_id'),
     clientSecret: config.get('facebook.app_secret'),
-    callbackURL: config.get('facebook.callback_url')
+    callbackURL: config.get('facebook.callback_url'),
+    profileFields: ['first_name', 'last_name', 'age_range', 'bio', 'currency', 'email', 'gender']
   },
     function(accessToken, refreshToken, profile, cb) {
-      db.User.findOrCreate({ where: {facebookId: profile.id }, raw: true}).then(function(user) {
+      
+      var curr = profile._json;
+      var userObj = {
+        facebookId: curr.id,
+        email: profile.email,
+        first_name: curr.first_name,
+        last_name: curr.last_name,
+        gender: curr.gender,
+        currency: curr.currency.user_currency,
+        age: curr.age_range.min
+      };
+
+      db.User.findOrCreate({ where: {facebookId: curr.id}, defaults: userObj}).then(function(user) {
         return cb(false, user[0]);
       }).catch(function (err) {
         return cb(err, false);

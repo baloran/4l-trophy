@@ -14,7 +14,8 @@ module.exports = {
     password: Sequelize.STRING,
     updatedAt: Sequelize.DATE,
     createdAt: Sequelize.DATE
-   }).done(done);
+   });
+   done();
   },
 
   down: function (queryInterface, Sequelize) {
