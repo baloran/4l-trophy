@@ -17,6 +17,7 @@ module.exports = function (sequelize, Sequelize) {
     gender: Sequelize.STRING,
     currency: Sequelize.STRING,
     email: Sequelize.STRING,
-    password: Sequelize.STRING
+    password: Sequelize.STRING,
+    wallet: Sequelize.INTEGER
   });
 }
