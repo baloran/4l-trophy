@@ -11,8 +11,8 @@ var express = require('express')
 var app = express();
 
 // Configuration
-require('./core/bootstrap')(app);
 require('./core/auth')(app);
+require('./core/bootstrap')(app);
 
 var port = process.env.PORT || 1984;
 

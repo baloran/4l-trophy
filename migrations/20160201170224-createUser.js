@@ -2,15 +2,18 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize, done) {
-   queryInterface.define('Users', {
+   queryInterface.createTable('Users', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
     facebookId: Sequelize.STRING,
-    updatedAt:          Sequelize.DATE,
-    createdAt:          Sequelize.DATE
+    username: Sequelize.STRING,
+    email: Sequelize.STRING,
+    password: Sequelize.STRING,
+    updatedAt: Sequelize.DATE,
+    createdAt: Sequelize.DATE
    }).done(done);
   },
 
