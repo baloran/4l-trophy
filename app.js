@@ -12,6 +12,7 @@ var app = express();
 
 // Configuration
 require('./core/bootstrap')(app);
+require('./core/auth')(app);
 
 var port = process.env.PORT || 1984;
 
