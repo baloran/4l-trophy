@@ -1,0 +1,13 @@
+/* FONTS */
+@font-face {
+	font-family: "Avenir";
+	src: url('/assets/fonts/Avenir.ttc');
+}
+
+/* MIXINS */
+@mixin fontAvenir() {
+	font-family: "Avenir";
+}
+
+
+

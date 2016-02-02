@@ -1,9 +1,12 @@
-html, body{
-  font-family: "Helvetica";
-}
+/* VENDORS */
+@import "vendors/normalize/normalize.scss";
 
-.container{
-  width: 900px;
-  margin:0 auto;
-  text-align: center;
-}
+/* VARIABLES */
+@import "components/fonts.scss";
+@import "components/vars.scss";
+
+/* VIEWS */
+@import "views/home.scss";
+
+
+
