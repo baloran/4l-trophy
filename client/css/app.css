@@ -1,9 +1,1 @@
-html, body{
-  font-family: "Helvetica";
-}
-
-.container{
-  width: 900px;
-  margin:0 auto;
-  text-align: center;
-}
+html,body{font-family:"Helvetica"}.container{width:900px;margin:0 auto;text-align:center}
