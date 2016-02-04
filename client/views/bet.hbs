@@ -1,11 +1,17 @@
-<h2>Bet</h2>
+<h2>Hello, {{user.first_name}} {{user.last_name}}</h2>
 
-{{#each}}
-  
-{{/each}}
+{{#unless session.erreur}}
+  <p>{{session.erreur.message}}</p>  
+{{/unless}}
+
+
+Current Wallet: {{user.wallet}} 
+<h3><a href="/wallet">Add some money</a></h3>
+
+<br><br>
 
 {{#each bets}}
-  <form action="#">
+  <form action="/bet/{{this.id}}" method="post">
     {{this.name}}
     {{this.type}}
     <input type="text" name="value">
