@@ -51,6 +51,11 @@ module.exports = function (app) {
       extended: true
   }));
 
+  app.use(function(req, res, next){
+    res.locals.session = req.session;
+    next();
+  });
+
   app.use('/', routes.home());
 
   app.use(express.static(path.join(path.normalize(__dirname + '/..'), 'client')));
