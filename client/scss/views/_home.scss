@@ -7,7 +7,7 @@ section#home {
 
 		div.content-title { 
 			position:absolute;
-  			top: 63%;
+  			top: 65%;
   			left: 28%;
  			transform: translateY(-50%);
 			font-size: 16px;
@@ -26,7 +26,7 @@ section#home {
 			display: flex;
 			justify-content: center;
 			position:relative;
-	  		top: 85%;
+	  		top: 83%;
 			div.bet {
 				float: left;
 				width: 320px;
@@ -106,7 +106,7 @@ section#home {
 	article.clients {
 		padding-top: 250px;
 		p.content-top {
-			padding-top: 50px;
+			padding-top: 80px;
 			padding-bottom: 0px;
 			display: block;
 			margin: 0 auto;
@@ -158,7 +158,7 @@ section#home {
 		div.content {
 			position: relative;
 			width: 580px;
-			top: 32%;
+			top: 33.5%;
 			left: 37%;
 			font-size: 18px;
 			color: $white;
