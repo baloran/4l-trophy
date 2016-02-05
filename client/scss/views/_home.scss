@@ -106,7 +106,7 @@ section#home {
 	article.clients {
 		padding-top: 250px;
 		p.content-top {
-			padding-top: 80px;
+			padding-top: 70px;
 			padding-bottom: 0px;
 			display: block;
 			margin: 0 auto;
@@ -183,7 +183,8 @@ section#home {
 		ul {
 			width: 50%;
 			height: 45px;
-			display: block;
+			display: flex;
+			justify-content: center;
 			text-align: center;
 			margin: 0 auto;
 			li {
