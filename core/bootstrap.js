@@ -24,6 +24,7 @@ module.exports = function (app) {
     layoutsDir: path.join(__dirname, '/../','client/views/layouts'),
     defaultLayout: 'template',
     extname: '.hbs',
+    partialsDir: path.join(__dirname, '/../','client/views/partials'),
     helpers: {
         formatDate: function (date) {
           return moment(date).fromNow();
