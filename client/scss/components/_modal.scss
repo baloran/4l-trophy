@@ -98,8 +98,11 @@ article.remodal {
 				outline: none;
 			}
 		}
-		button.button_modal {
-			border: 0px;
+		a.button_modal {
+			display: block;
+			margin: 0 auto;
+			text-decoration: none;
+			line-height: 40px;
 			width: 440px;
 			height: 40px;
 			font-size: 12px;
