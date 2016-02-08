@@ -10,6 +10,9 @@ module.exports = function (sequelize, Sequelize) {
     date: Sequelize.DATE,
     type: Sequelize.STRING,
     type_id: Sequelize.INTEGER,
-    value: Sequelize.STRING
+    value: Sequelize.STRING,
+    active: Sequelize.BOOLEAN,
+    answer: Sequelize.STRING,
+    desc: Sequelize.TEXT
   });
 }

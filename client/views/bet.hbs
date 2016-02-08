@@ -9,18 +9,23 @@
       <article class="myAccount">
         <h2>Mon Compte</h2>
         <div class="mail">
-          <p class="title">ADRESSE MAIL</p>
-          <div>tadar@gmail.com</div>
+          {{#if user.email}}
+            <p class="title">ADRESSE MAIL</p>
+            <div>{{user.email}}</div>
+          {{else}}
+            <p class="title">PRENOM NOM</p>
+            <div>{{user.first_name}} {{user.last_name}}</div>
+          {{/if}}
         </div>
         <div class="money">
           <p >PORTE-MONNAIE</p>
-          <div>X stylos</div>
+          <div>{{user.pen}}</div>
         </div>
         <div class="addCash">
           <h2>Augmenter son solde</h2>
           <div> 1 stylo = 0.17€</div>
-          <form action="">
-            <input type="text" placeholder="Nombre de stylos">
+          <form action="/wallet" method="post">
+            <input type="text" placeholder="Nombre de stylos" name="quantity">
           </form>
         </div>
         <a href="">
@@ -67,54 +72,30 @@
       </article>
   </div>
   <article class="betsOngoing">
-    <div class="bets bet1">
-      <h2>Combien de kilomètres vont-elle parcourir ?</h2>
-      <h3>Pariez sur les kilomètres parcourut sur chaques étapes</h3>
-      <p class="time">Temps restant : 3h 23 minutes </p>
-      <div class="main">
-        <div class="course">
-          <p>TRAJET</p>
-          Ceuta  <i class="fa fa-long-arrow-right"></i>  Marrakech
-        </div>
-        <div class="form">
-          <p>&Agrave; VOUS DE JOUER !</p>
-          <form action="">
-            <label>VALEUR</label> <input type="text" placeholder="km" name="value"> 
-            <label>MISE</label> <input type="text" placeholder="stylos" name="bet">
-          </form>
-        </div>
-      </div>
-      <a href="">VALIDER LE PARI</a>
-    </div>
 
-    <div class="bets betElse">
-      <h2>Pauline et Margaux vont-elles finir le raid ?</h2>
-      <h3>Pariez sur le kilomètre où elles vont abandonner le raid</h3>
-      <p class="time">Temps restant : 3h 23 minutes </p>
-
-      <div class="main"> 
-      <p>&Agrave; VOUS DE JOUER !</p>
-      <form action="">
-            <label>VALEUR</label> <input type="text" placeholder="km" name="value"> 
-            <label>MISE</label> <input type="text" placeholder="stylos" name="bet">
-          </form>
+    {{#each bets}}
+      <div class="bets {{#ifCond this.type_id 1}}bet1{{else}}betElse{{/ifCond}}">
+        <h2>{{this.answer}}</h2>
+        <h3>{{this.desc}}</h3>
+        <p class="time">Temps restant : {{../timeLeft}} </p>
+        <div class="main">
+          {{#ifCond this.type_id 1}}
+            <div class="course">
+              <p>TRAJET</p>
+              Ceuta  <i class="fa fa-long-arrow-right"></i>  Marrakech
+            </div>
+          {{/ifCond}}
+          <div class="form">
+            <p>&Agrave; VOUS DE JOUER !</p>
+            <form action="/bet/{{this.id}}">
+              <label>VALEUR</label> <input type="text" placeholder="km" name="value"> 
+              <label>MISE</label> <input type="text" placeholder="stylos" name="bet">
+            </form>
+          </div>
+        </div>
+        <a href="">VALIDER LE PARI</a>
       </div>
-      <a href="">VALIDER LE PARI</a>
-    </div>
-    </div>
-    <div class="bets betElse">
-      <h2>Quel sera leur classement à la fin du raid ?</h2>
-      <h3>Pariez sur leur classement à la fin du raid</h3>
-      <p class="time">Temps restant : 3h 23 minutes </p>
-      <div class="main"> 
-      <p>&Agrave; VOUS DE JOUER !</p>
-      <form action="">
-            <label>VALEUR</label> <input type="text" placeholder="km" name="value"> 
-            <label>MISE</label> <input type="text" placeholder="stylos" name="bet">
-          </form>
-      </div>
-      <a href="">VALIDER LE PARI</a>
-    </div>
+    {{/each}}
     
   </article>
   <footer>

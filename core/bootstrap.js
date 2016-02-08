@@ -31,6 +31,12 @@ module.exports = function (app) {
         },
         toLowerCase: function (str) {
           return str.toLowerCase();
+        },
+        ifCond: function(v1, v2, options) {
+          if(v1 === v2) {
+            return options.fn(this);
+          }
+          return options.inverse(this);
         }
     }
   }));
@@ -53,6 +59,9 @@ module.exports = function (app) {
   }));
 
   app.use(function(req, res, next){
+
+    res.locals.timeLeft = moment("183000", "hmms").endOf("hour").fromNow();
+
     res.locals.session = req.session;
     next();
   });
@@ -74,24 +83,33 @@ module.exports = function (app) {
      *    Minutes: 0-59
      *    Hours: 0-23
      */
-    cronTime: '00 57 00 * * 1-7',
+    cronTime: '00 20 12 * * 1-7',
     onTick: function() {
       db.Bet.create({
         date: new Date,
         type: 'kilometers',
+        answer: "Combien de kilomètres vont-elle parcourir ?",
+        desc: "Pariez sur les kilomètres parcourut sur chaques étapes",
         type_id: 1,
+        active: 1,
         value: null
       });
       db.Bet.create({
         date: new Date,
         type: 'rank',
+        answer: "Quel sera leur classement à la fin du raid ?",
+        desc: "Pariez sur leur classement à la fin du raid",
         type_id: 2,
+        active: 1,
         value: null
       });
       db.Bet.create({
         date: new Date,
         type: 'finish',
+        answer: "Pauline et Margaux vont-elles finir le raid ?",
+        desc: "Pariez sur le kilomètre où elles vont abandonner le raid",
         type_id: 3,
+        active: 1,
         value: null
       });
     },

@@ -38,7 +38,9 @@ module.exports = function (app) {
         last_name: curr.last_name,
         gender: curr.gender,
         currency: curr.currency.user_currency,
-        age: curr.age_range.min
+        age: curr.age_range.min,
+        wallet: 0,
+        pen: 0
       };
 
       db.User.findOrCreate({ where: {facebookId: curr.id}, defaults: userObj}).then(function(user) {

@@ -10,33 +10,6 @@ paypal.configure({
   'client_secret': 'EMiJ2_xw3q2POV2JrYs0XfbjaRZMg-p61mt6SxGpt0VzJkTdxBxFXxvoNueHYhlrQk819DdfKfIfTHlb'
 });
 
-var create_payment_json = {
-    "intent": "sale",
-    "payer": {
-        "payment_method": "paypal"
-    },
-    "redirect_urls": {
-        "return_url": "http://localhost:1984/validWallet",
-        "cancel_url": "http://cancel.url"
-    },
-    "transactions": [{
-        "item_list": {
-            "items": [{
-                "name": "item",
-                "sku": "item",
-                "price": "10.00",
-                "currency": "EUR",
-                "quantity": 1
-            }]
-        },
-        "amount": {
-            "currency": "EUR",
-            "total": "10.00"
-        },
-        "description": "This is the payment description."
-    }]
-};
-
 homeCtrl = {
   index: function (req, res) {
     res.render('home');
@@ -50,7 +23,8 @@ homeCtrl = {
       }, limit: 3, order: '"updatedAt" ASC'}).then(function (bet) {
         res.render('bet', {
           bets: bet,
-          user: user.toJSON()
+          user: user.toJSON(),
+          wallet: user.wallet / 0.19
         });
       }).catch(function (err) {
         console.log(err);
@@ -107,24 +81,90 @@ homeCtrl = {
   },
 
   addWallet: function (req, res) {
+
+    if (req.body.quantity < 14) {
+      return res.redirect('/bet');
+    };
+
+    var price = (req.body.quantity * 0.19).toFixed(2).toString();
+
+    var create_payment_json = {
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "http://localhost:1984/validWallet",
+            "cancel_url": "http://cancel.url"
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": "item",
+                    "sku": "item",
+                    "price": price,
+                    "currency": "EUR",
+                    "quantity": 1
+                }]
+            },
+            "amount": {
+                "currency": "EUR",
+                "total": price
+            },
+            "description": "This is the payment description."
+        }]
+    };
+
     paypal.payment.create(create_payment_json, function (error, payment) {
-      console.log("salut");
+      console.log(payment);
       if (error) {
         console.log(error.response.details);
       } else {
-        res.redirect(_.findWhere(payment.links, {rel: 'approval_url'}).href)
+        db.liveWallet.create({
+          amount: price,
+          user_id: req.session.passport.user,
+          paypal_id: payment.id,
+          verified: false,
+          pen: req.body.quantity
+        }).then(function (pay) {
+          res.redirect(_.findWhere(payment.links, {rel: 'approval_url'}).href)
+        }).catch(function (err) {
+          res.redirect('/bet');
+        });
       }
     });
   },
 
   validWallet: function (req, res) {
+
     paypal.payment.get(req.query.paymentId, function (error, payment) {
       if (error) {
           console.log(error);
           throw error;
       } else {
-          console.log("Get Payment Response");
-          console.log(JSON.stringify(payment));
+          var payment = JSON.stringify(payment);
+          db.liveWallet.find({where: {user_id: req.session.passport.user, paypal_id: req.query.paymentId}}).then(function(wallet) {
+
+
+            if (wallet.verified) {
+              return res.redirect('/bet');
+            };
+
+            wallet.verified = true;
+            wallet.save().then(function () {
+              db.User.findById(wallet.user_id).then(function (user) {
+                user.wallet = user.wallet + wallet.amount;
+                user.pen = user.pen + wallet.pen;
+                user.save().then(function () {
+                  res.redirect('/bet');
+                });
+              }).catch(function() {
+                res.redirect('/bet');
+              });
+            });
+          }).catch(function (err) {
+
+          });
       }
     });
   }
