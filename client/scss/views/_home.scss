@@ -1,6 +1,6 @@
 section#home {
 	article.top {
-		background-image: url("/assets/img/background-home.png");
+		background-image: url("/assets/img/background-home.jpg");
 		background-size: cover;
 		width: 100%;
 		height: 90vh;
@@ -15,6 +15,9 @@ section#home {
 			color: $whiteDark;
 			text-align: left;
 			width: 270px;
+			h1 {
+				display: none;
+			}
 			p {
 				border-left: 3px solid $orange;
 				padding-left: 24px;
@@ -171,53 +174,4 @@ section#home {
 			top: 40%;
 		}
 	}
-
-	footer {
-		background-color: $black;
-		width: 100%;
-		height: 45px;
-		overflow: hidden;
-		margin: 0;
-		display: block;
-		text-align:center;
-		ul {
-			width: 50%;
-			height: 45px;
-			display: flex;
-			justify-content: center;
-			text-align: center;
-			margin: 0 auto;
-			li {
-				width: auto;
-				height: 45px;
-				font-weight: 100;
-				font-size: 12px;
-				float: left;
-				color: $white;
-				height: 45px;
-				list-style-type: none;
-				&:nth-child(2) {
-					margin-left: 60px;
-					line-height: 45px;
-				}
-				img {
-					width: auto;
-					height: 45px;
-					margin-bottom: 10px;
-					display: block;
-					line-height: 20px;
-				}
-				a {
-					margin-left: 60px;
-					color: $white;
-					text-decoration: none;
-					line-height: 45px;
-					&:hover {
-						color: $orange;
-					}
-				}
-			}
-		}
-	}
-
 }
