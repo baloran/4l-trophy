@@ -26,7 +26,7 @@ homeRoutes = function () {
 
     router.post('/bet/:id', home.createBet);
 
-    router.get('/wallet', home.addWallet);
+    router.post('/wallet', home.addWallet);
 
     router.get('/validWallet', home.validWallet);
 
