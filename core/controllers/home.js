@@ -45,7 +45,9 @@ homeCtrl = {
   bet: function (req, res) {
 
     db.User.findById(req.session.passport.user).then(function (user) {
-      db.Bet.findAll().then(function (bet) {
+      db.Bet.findAll({where: {
+        active: 1
+      }, limit: 3, order: '"updatedAt" ASC'}).then(function (bet) {
         res.render('bet', {
           bets: bet,
           user: user.toJSON()

@@ -69,12 +69,29 @@ module.exports = function (app) {
    *   - 3: ?
    */
   var job = new CronJob({
-    cronTime: '00 11 10 * * 1-7',
+    /**
+     *    Seconds: 0-59
+     *    Minutes: 0-59
+     *    Hours: 0-23
+     */
+    cronTime: '00 57 00 * * 1-7',
     onTick: function() {
       db.Bet.create({
         date: new Date,
         type: 'kilometers',
         type_id: 1,
+        value: null
+      });
+      db.Bet.create({
+        date: new Date,
+        type: 'rank',
+        type_id: 2,
+        value: null
+      });
+      db.Bet.create({
+        date: new Date,
+        type: 'finish',
+        type_id: 3,
         value: null
       });
     },
