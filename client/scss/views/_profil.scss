@@ -3,7 +3,7 @@
 
 #profil{
 	.head {
-		background-image: url("assets/img/background-profil.jpg");
+		background-image: url("/assets/img/background-profil.jpg");
 		background-size: cover;
 		max-width: 100%;
 		height: 600px;
@@ -119,8 +119,6 @@
 					}
 				}
 			}
-			
-
 
 			a {
 				display: block;

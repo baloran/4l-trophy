@@ -1,20 +1,135 @@
-<h2>Hello, {{user.first_name}} {{user.last_name}}</h2>
+<section id="profil">
+  <ul class="nav">
+    <li><a href="#">Accueil</a></li>
+    <li><a href="#connexion">Connexion</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="head"></div>
+  <div class="wrapLeft">
+      <article class="myAccount">
+        <h2>Mon Compte</h2>
+        <div class="mail">
+          <p class="title">ADRESSE MAIL</p>
+          <div>tadar@gmail.com</div>
+        </div>
+        <div class="money">
+          <p >PORTE-MONNAIE</p>
+          <div>X stylos</div>
+        </div>
+        <div class="addCash">
+          <h2>Augmenter son solde</h2>
+          <div> 1 stylo = 0.17€</div>
+          <form action="">
+            <input type="text" placeholder="Nombre de stylos">
+          </form>
+        </div>
+        <a href="">
+          VALIDER
+        </a>
 
-{{#unless session.erreur}}
-  <p>{{session.erreur.message}}</p>  
-{{/unless}}
+      </article>
+      
+      <article class="nextBets">
+        <h2>Prochaines étapes</h2>
+        <p> Kilometrage</p>
+        <table class="rwd-table">
+        <tr>
+          <td class="from">Marrakech</td>
+          <td class="to"><i class="fa fa-long-arrow-right"></i></td>
+          <td class="destination">Fès</td>
+          <td class="time">1j5h45min</td>
+        </tr>
+        <tr>
+          <td class="from">Marrakech</td>
+          <td class="to"><i class="fa fa-long-arrow-right"></i></td>
+          <td class="destination">Fès</td>
+          <td class="time">1j5h45min</td>
+        </tr>
+        <tr>
+          <td class="from">Marrakech</td>
+          <td class="to"><i class="fa fa-long-arrow-right"></i></td>
+          <td class="destination">Fès</td>
+          <td class="time">1j5h45min</td>
+        </tr>
+        <tr>
+          <td class="from">Marrakech</td>
+          <td class="to"><i class="fa fa-long-arrow-right"></i></td>
+          <td class="destination">Fès</td>
+          <td class="time">1j5h45min</td>
+        </tr>
+        <tr>
+          <td class="from">Marrakech</td>
+          <td class="to"><i class="fa fa-long-arrow-right"></i></td>
+          <td class="destination">Fès</td>
+          <td class="time">1j5h45min</td>
+        </tr>
+      </table>
+      </article>
+  </div>
+  <article class="betsOngoing">
+    <div class="bets bet1">
+      <h2>Combien de kilomètres vont-elle parcourir ?</h2>
+      <h3>Pariez sur les kilomètres parcourut sur chaques étapes</h3>
+      <p class="time">Temps restant : 3h 23 minutes </p>
+      <div class="main">
+        <div class="course">
+          <p>TRAJET</p>
+          Ceuta  <i class="fa fa-long-arrow-right"></i>  Marrakech
+        </div>
+        <div class="form">
+          <p>&Agrave; VOUS DE JOUER !</p>
+          <form action="">
+            <label>VALEUR</label> <input type="text" placeholder="km" name="value"> 
+            <label>MISE</label> <input type="text" placeholder="stylos" name="bet">
+          </form>
+        </div>
+      </div>
+      <a href="">VALIDER LE PARI</a>
+    </div>
 
+    <div class="bets betElse">
+      <h2>Pauline et Margaux vont-elles finir le raid ?</h2>
+      <h3>Pariez sur le kilomètre où elles vont abandonner le raid</h3>
+      <p class="time">Temps restant : 3h 23 minutes </p>
 
-Current Wallet: {{user.wallet}} 
-<h3><a href="/wallet">Add some money</a></h3>
+      <div class="main"> 
+      <p>&Agrave; VOUS DE JOUER !</p>
+      <form action="">
+            <label>VALEUR</label> <input type="text" placeholder="km" name="value"> 
+            <label>MISE</label> <input type="text" placeholder="stylos" name="bet">
+          </form>
+      </div>
+      <a href="">VALIDER LE PARI</a>
+    </div>
+    </div>
+    <div class="bets betElse">
+      <h2>Quel sera leur classement à la fin du raid ?</h2>
+      <h3>Pariez sur leur classement à la fin du raid</h3>
+      <p class="time">Temps restant : 3h 23 minutes </p>
+      <div class="main"> 
+      <p>&Agrave; VOUS DE JOUER !</p>
+      <form action="">
+            <label>VALEUR</label> <input type="text" placeholder="km" name="value"> 
+            <label>MISE</label> <input type="text" placeholder="stylos" name="bet">
+          </form>
+      </div>
+      <a href="">VALIDER LE PARI</a>
+    </div>
+    
+  </article>
+  <footer>
+    <ul>
+      <li>
+        <img src="/assets/img/icons/paypal.png" alt="Paypal">
+      </li>
+      <li>
+        Les jeux d’argent et de hasard sont strictement interdits aux mineurs.
+      </li>
+        <li><a href="#">Mentions Légales</a></li>
+    </ul>
+  </footer>
+{{> connexion}}
+{{> signup}}
+{{> successful}}
 
-<br><br>
-
-{{#each bets}}
-  <form action="/bet/{{this.id}}" method="post">
-    {{this.name}}
-    {{this.type}}
-    <input type="text" name="value">
-    <input type="text" name="amount">
-  </form>
-{{/each}}
+</section>
