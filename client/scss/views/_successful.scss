@@ -1,0 +1,67 @@
+section#successful{
+		width: 100vw;
+		height: 100vh;
+		background-image: url("assets/img/background-successful.jpg");
+		background-size: 100%;
+		background-position:center center;
+    	background-repeat: no-repeat;
+    	overflow: hidden;
+
+	
+	.message{
+		background-color:$white;
+		position: relative; 
+		width: 780px;
+		height: 320px;
+		top: 280px;
+		margin-right: auto;
+		margin-left: auto;
+		text-align: center;
+		z-index: 2;
+		opacity: 0.98;
+		h2{
+			padding-top: 40px;
+			font-weight: bold;
+			font-size: 40px;
+		    text-align:center;
+		    margin-bottom: 5px;
+		}
+		.expl{
+			text-align:center;
+			color: $black;
+			font-size: 14px;
+			text-transform: uppercase;
+			padding-bottom:20px;
+			b {
+				color: $orange;
+			}
+		}
+		.choice{
+			color:$black;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			font-size: 16px;
+		    width: 500px;
+		    margin-left: auto;
+		    margin-right: auto;
+		}
+		.action{
+			position:relative;
+			top: 30px;
+			a{
+				text-transform: uppercase;
+				margin: 0 auto;
+				display: inline-block;
+				text-decoration: none;
+				font-size: 13px;
+				margin-right: 10px;
+				color:$white;
+				background-color:$orange;
+				width:300px;
+				height: 40px;
+				line-height: 40px;
+				border:0px;
+			}
+		}
+	}
+}

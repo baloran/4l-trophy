@@ -30,8 +30,10 @@
     "node-sass-middleware": "^0.9.7",
     "passport": "^0.3.2",
     "passport-facebook": "^2.0.0",
+    "paypal-rest-sdk": "^1.6.8",
     "postcss-middleware": "^1.0.0",
     "sequelize": "^3.19.0",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "underscore": "^1.8.3"
   }
 }
