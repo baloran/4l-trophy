@@ -17,12 +17,18 @@ homeRoutes = function () {
 
     router.get('/auth/facebook', passport.authenticate('facebook'));
 
-    router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
+    router.get('/auth/facebook/callback', passport.authenticate('facebook', {authType: 'rerequest', scope:['email', 'user_friends', 'user_posts'], failureRedirect: '/login' }), function(req, res) {
         // Successful authentication, redirect home.
         res.redirect('/');
     });
 
     router.get('/bet', home.bet);
+
+    router.post('/bet/:id', home.createBet);
+
+    router.get('/wallet', home.addWallet);
+
+    router.get('/validWallet', home.validWallet);
 
     return router;
 };
