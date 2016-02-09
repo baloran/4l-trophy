@@ -28,7 +28,6 @@ homeCtrl = {
       }
 
       if (user.passport == req.body.passport) {
-
         return res.redirect('/bet');
       } else {
         return res.redirect('/#connexion'); 
@@ -38,8 +37,12 @@ homeCtrl = {
 
   bet: function (req, res) {
 
-    if (req.session.user == 18) {
-      console.log()
+    if (typeof req.session.passport === "undefined") {
+      return res.redirect('/#connexion');
+    };
+
+    if (req.session.passport.user == 18) {
+      return res.render('admin');
     }
 
     db.User.findById(req.session.passport.user).then(function (user) {

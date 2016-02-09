@@ -17,9 +17,9 @@ homeRoutes = function () {
 
     router.post('/auth/email', home.login);
 
-    router.get('/auth/facebook', passport.authenticate('facebook'));
+    router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'], failureRedirect: '/#connexion' }));
 
-    router.get('/auth/facebook/callback', passport.authenticate('facebook', {authType: 'rerequest', scope:['email', 'user_friends', 'user_posts'], failureRedirect: '/login' }), function(req, res) {
+    router.get('/auth/facebook/callback', passport.authenticate('facebook', {authType: 'rerequest', scope: ['email', 'public_profile'], failureRedirect: '/#connexion' }), function(req, res) {
         // Successful authentication, redirect home.
         res.redirect('/');
     });
