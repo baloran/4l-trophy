@@ -85,32 +85,10 @@ module.exports = function (app) {
      */
     cronTime: '00 20 12 * * 1-7',
     onTick: function() {
-      db.Bet.create({
-        date: new Date,
-        type: 'kilometers',
-        answer: "Combien de kilomètres vont-elle parcourir ?",
-        desc: "Pariez sur les kilomètres parcourut sur chaques étapes",
-        type_id: 1,
-        active: 1,
-        value: null
-      });
-      db.Bet.create({
-        date: new Date,
-        type: 'rank',
-        answer: "Quel sera leur classement à la fin du raid ?",
-        desc: "Pariez sur leur classement à la fin du raid",
-        type_id: 2,
-        active: 1,
-        value: null
-      });
-      db.Bet.create({
-        date: new Date,
-        type: 'finish',
-        answer: "Pauline et Margaux vont-elles finir le raid ?",
-        desc: "Pariez sur le kilomètre où elles vont abandonner le raid",
-        type_id: 3,
-        active: 1,
-        value: null
+      db.Bet.update({active: 1}, {where: {value: null, active: 0}}).then(function (affectedRows) {
+        console.log("row updated");
+      }).catch(function (err) {
+        console.log("Error: ", err);
       });
     },
     start: false,
