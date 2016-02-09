@@ -27,7 +27,7 @@ homeCtrl = {
         user: user.id
       }
 
-      if (user.passport == req.body.passport) {
+      if (user.password == req.body.password) {
         return res.redirect('/bet');
       } else {
         return res.redirect('/#connexion'); 
