@@ -11,11 +11,36 @@ paypal.configure({
 });
 
 homeCtrl = {
+  
   index: function (req, res) {
     res.render('home');
   },
 
+  login: function (req, res) {
+
+    db.User.find({where: {email: req.body.email}, limit: 1}).then(function (user) {
+      if (!user) {
+        return res.redirect('/#connexion');
+      }
+
+      req.session.passport = {
+        user: user.id
+      }
+
+      if (user.passport == req.body.passport) {
+
+        return res.redirect('/bet');
+      } else {
+        return res.redirect('/#connexion'); 
+      }
+    });
+  },
+
   bet: function (req, res) {
+
+    if (req.session.user == 18) {
+      console.log()
+    }
 
     db.User.findById(req.session.passport.user).then(function (user) {
       db.Bet.findAll({where: {

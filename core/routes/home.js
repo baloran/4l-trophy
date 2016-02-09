@@ -15,6 +15,8 @@ homeRoutes = function () {
      */
     router.get('/', home.index);
 
+    router.post('/auth/email', home.login);
+
     router.get('/auth/facebook', passport.authenticate('facebook'));
 
     router.get('/auth/facebook/callback', passport.authenticate('facebook', {authType: 'rerequest', scope:['email', 'user_friends', 'user_posts'], failureRedirect: '/login' }), function(req, res) {
