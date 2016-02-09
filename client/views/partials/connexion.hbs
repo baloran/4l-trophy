@@ -8,16 +8,16 @@
     <p class="information">Veuillez entrer vos identifiants</p>
     <br>
     
-    <form>
+    <form method="post" action="/auth/email">
         <div class="account">
             <label for="nom" >Adresse e-mail</label>
-            <input placeholder="account@hetic.net" id="nom" type="text">
+            <input placeholder="account@hetic.net" id="nom" type="text" name="email">
         </div>
         <div class="mdp">
             <label for="mdp">Mot de passe</label>
-            <input placeholder="••••••••••" id="mdp" type="text">
+            <input placeholder="••••••••••" id="mdp" name="password" type="text">
         </div>
-        <a href="/auth/facebook" class="button_modal origin">se connecter</a>
+        <input type="submit" class="button_modal origin" value="se connecter">
         <a href="/auth/facebook" class="button_modal fb">se connecter avec facebook</a>
     </form>
     <p>Vous ne possedez pas de compte ? <a href="#signup">Inscrivez vous</a></p>
