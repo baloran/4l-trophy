@@ -1,6 +1,7 @@
 var homeCtrl,
     _ = require('underscore'),
     paypal = require('paypal-rest-sdk'),
+    fs = require('fs'),
     db = require('../models');
 
 
@@ -8,6 +9,14 @@ paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': 'AU_zetnngpuT1gdlZT1UZcx5xckn5rFy6f_xWjCwp2GcxyUVS4dBWz7YIwoNoogQINzC6oXJjPAkRAJf',
   'client_secret': 'EMiJ2_xw3q2POV2JrYs0XfbjaRZMg-p61mt6SxGpt0VzJkTdxBxFXxvoNueHYhlrQk819DdfKfIfTHlb'
+});
+
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill('gfv3y4xjJGQqHSgHrD8Rxg');
+
+var win;
+fs.readFile('/client/email/winner.html', function (err, data) {
+  win = data;
 });
 
 homeCtrl = {
@@ -23,11 +32,12 @@ homeCtrl = {
         return res.redirect('/#connexion');
       }
 
-      req.session.passport = {
-        user: user.id
-      }
-
       if (user.password == req.body.password) {
+        
+        req.session.passport = {
+          user: user.id
+        }
+
         return res.redirect('/bet');
       } else {
         return res.redirect('/#connexion'); 
@@ -67,34 +77,54 @@ homeCtrl = {
      *   - put this to a middleware
      *   - make transaction
      */
+    
     db.User.findById(req.session.passport.user).then(function (user) {
-      if (user.wallet < req.body.value) {
+      if (user.pen < req.body.bet) {
         req.session.erreur = "No money felasse";
         req.session.save(function(err) {
           return res.redirect('/bet');
         });
       }
 
-      db.BetUser.find({
+      db.Bet.find({
         where: {
-          bet_id: req.params.id, 
-          user_id: req.session.passport.user
+          id: req.params.id
         }
       }).then(function (bet) {
 
-        if (bet != null) {
+        if (bet == null) {
           return res.redirect('/bet');
         }
 
-        user.wallet = user.wallet - req.body.value;
+        user.pen = user.pen - req.body.bet;
 
         db.BetUser.create({
           bet_id: req.params.id,
           user_id: req.session.passport.user,
-          value: req.body.value
+          value: req.body.value,
+          amount: req.body.bet
         }).then(function (bet) {
 
           user.save();
+
+          var message = {
+            "html": "<p>Vous venez de faire un pari: </p><br><p>Vous venez de pariez " + req.body.bet + " stylos.</p> <br><br> <p>Avec comme valeur " + req.body.value + "km</p>",
+            "subject": "Bet Trophy",
+            "from_email": "hello@baloran.fr",
+            "to": [
+              {
+                "email": user.email,
+                "name": user.first_name + " " + user.last_name,
+                "type": "to"
+              }
+            ]
+          }
+
+          mandrill_client.messages.send({"message": message}, function(result) {
+              console.log(result);
+          }, function(e) {
+              console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+          });
 
           res.redirect('/bet');
         }).catch(function (error) {
@@ -144,7 +174,6 @@ homeCtrl = {
     };
 
     paypal.payment.create(create_payment_json, function (error, payment) {
-      console.log(payment);
       if (error) {
         console.log(error.response.details);
       } else {
@@ -194,6 +223,145 @@ homeCtrl = {
 
           });
       }
+    });
+  },
+
+  valideDay: function (req, res) {
+
+    var type = [];
+    type[1] = req.body.kilometers;
+    type[2] = req.body.position;
+    type[3] = req.body.alive || false;
+
+    db.Bet.findAll({where: {active: 1, value: null}}).then(function (bets) {
+
+      _.each(bets, function (item) {
+
+        item.value = type[item.type_id];
+        item.active = false;
+
+        item.save(function () {
+          console.log("saved");
+        });
+
+        var curr = type[item.type_id];
+
+        console.log("curr: ", curr);
+        console.log("item: ", item.type_id)
+
+        db.BetUser.findAll({
+          where: {bet_id: item.id}, 
+          limit: 3,  
+          order: [
+            [db.sequelize.fn('ABS', db.sequelize.condition(db.sequelize.col('value'), '-', curr)), 'ASC']
+          ]}).then(function (b) {
+
+          if (b == null) {
+            return console.log("No user")
+          };
+
+          if (b[0].value == curr) {
+            db.User.findById(b[0].user_id).then(function (user) {
+              var message = {
+                "html": win,
+                "subject": "Bet Trophy",
+                "from_email": "hello@baloran.fr",
+                "to": [
+                  {
+                    "email": user.email,
+                    "name": user.first_name + " " + user.last_name,
+                    "type": "to"
+                  }
+                ],
+                "global_merge_vars": [
+                  {
+                      "name": "URL_GAIN",
+                      "content": "http://baloran.fr:6777/bet/" + b[0].id
+                  }
+                ],
+              }
+
+              mandrill_client.messages.send({"message": message}, function(result) {
+                  console.log(result);
+              }, function(e) {
+                  console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+              });
+            }).catch(function (err) {
+              console.log(err);
+            });
+          } else {
+
+            var userIds = _.map(b, function (item) {
+              return b.user_id;
+            });
+
+            db.User.findAll({where:{id: {$in : userIds}}}).then(function (users) {
+
+              _.each(user, function (item, index) {
+
+                var message = {
+                  "html": win,
+                  "subject": "Bet Trophy",
+                  "from_email": "hello@baloran.fr",
+                  "to": {
+                    "email": item.email,
+                    "name": item.first_name + " " + item.last_name,
+                    "type": "to"
+                  },
+                  "global_merge_vars": [
+                      {
+                          "name": "URL_GAIN",
+                          "content": "http://baloran.fr:6777/bet/" + b[index].id
+                      }
+                  ],
+                }
+
+                mandrill_client.messages.send({"message": message}, function(result) {
+                    console.log(result);
+                }, function(e) {
+                    console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+                });
+              });
+              });
+          }
+        });
+      });
+
+      db.Bet.bulkCreate([
+        {
+          date: new Date,
+          type: 'kilometers',
+          answer: "Combien de kilomètres vont-elle parcourir ?",
+          desc: "Pariez sur les kilomètres parcourut sur chaques étapes",
+          type_id: 1,
+          active: 1,
+          value: null,
+          city: req.body.ville
+        },
+        {
+          date: new Date,
+          type: 'rank',
+          answer: "Quel sera leur classement à la fin du raid ?",
+          desc: "Pariez sur leur classement à la fin du raid",
+          type_id: 2,
+          active: 1,
+          value: null,
+          city: req.body.ville
+        },
+        {
+          date: new Date,
+          type: 'finish',
+          answer: "Pauline et Margaux vont-elles finir le raid ?",
+          desc: "Pariez sur le kilomètre où elles vont abandonner le raid",
+          type_id: 3,
+          active: 1,
+          value: null,
+          city: req.body.ville
+        }
+      ]).then(function (affectedRows) {
+
+        
+      });
     });
   }
 }
