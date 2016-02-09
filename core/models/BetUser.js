@@ -14,5 +14,8 @@ module.exports = function (sequelize, Sequelize) {
     user_id:{
       type: Sequelize.INTEGER
     },
+    amount: {
+      type: Sequelize.INTEGER
+    }
   });
 }

@@ -25,6 +25,7 @@
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.13.0",
+    "mandrill-api": "^1.0.45",
     "moment": "^2.11.1",
     "mysql": "^2.10.2",
     "node-sass-middleware": "^0.9.7",

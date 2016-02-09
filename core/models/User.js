@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 
 module.exports = function (sequelize, Sequelize) {
-  return sequelize.define('User', {
+  var User = sequelize.define('User', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -20,5 +20,13 @@ module.exports = function (sequelize, Sequelize) {
     password: Sequelize.STRING,
     wallet: Sequelize.INTEGER,
     pen: Sequelize.INTEGER
+  }, {
+    classMethods: {
+      associate: function (models) {
+        User.belongsToMany(models.Bet, { through: models.BetUser, foreignKey: 'user_id'});
+      }
+    }
   });
+
+  return User;
 }
