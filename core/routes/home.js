@@ -32,6 +32,8 @@ homeRoutes = function () {
 
     router.get('/validWallet', home.validWallet);
 
+    router.post('/validey', home.valideDay);
+
     return router;
 };
 
