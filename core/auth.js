@@ -26,14 +26,14 @@ module.exports = function (app) {
     clientID: config.get('facebook.app_id'),
     clientSecret: config.get('facebook.app_secret'),
     callbackURL: config.get('facebook.callback_url'),
-    profileFields: ['first_name', 'last_name', 'age_range', 'bio', 'currency', 'email', 'gender']
+    profileFields: ['first_name', 'last_name', 'age_range', 'bio', 'currency', 'emails', 'gender']
   },
     function(accessToken, refreshToken, profile, cb) {
       
       var curr = profile._json;
       var userObj = {
         facebookId: curr.id,
-        email: profile.email,
+        email: profile.emails[0].value,
         first_name: curr.first_name,
         last_name: curr.last_name,
         gender: curr.gender,
@@ -44,6 +44,7 @@ module.exports = function (app) {
       };
 
       db.User.findOrCreate({ where: {facebookId: curr.id}, defaults: userObj}).then(function(user) {
+        console.log(user.isNewRecord)
         return cb(false, user[0]);
       }).catch(function (err) {
         return cb(err, false);
