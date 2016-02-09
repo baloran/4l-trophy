@@ -98,6 +98,27 @@ article.remodal {
 				outline: none;
 			}
 		}
+		input.button_modal {
+			display: block;
+			margin: 0 auto;
+			text-decoration: none;
+			line-height: 40px;
+			width: 440px;
+			height: 40px;
+			font-size: 12px;
+			text-transform: uppercase;
+			color: $gray;
+			text-align: center;
+			width: 440px;
+			border: 0px;
+			&.origin {
+				background-color: $black;
+			}
+			&.fb {
+				margin-top: 10px;
+				background-color: $facebook;
+			}
+		}
 		a.button_modal {
 			display: block;
 			margin: 0 auto;
