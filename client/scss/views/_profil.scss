@@ -2,6 +2,7 @@
 .fa-long-arrow-right{color:$orange;}
 
 #profil{
+	margin-bottom: 1000px;
 	.head {
 		background-image: url("/assets/img/background-profil.jpg");
 		background-size: cover;
@@ -280,8 +281,8 @@
 					input{
 						position:relative;
 						top: -38px;
-					    width: 100px;
-					    margin-right: 130px;
+					  width: 100px;
+					  margin-right: 130px;
 						float: right;
     					clear:both;
     					text-align: center;
@@ -338,7 +339,6 @@
 
 					input{
 						text-align: center;
-						width: 90px;
 					}
 				}
 			}
@@ -359,7 +359,7 @@
 		font-size: 12px;
 		line-height: 27px;
 		text-align: center;
-		width: 150px;
+		width: 150px !important;
 		height: 30px;
 		border:none;
 		text-transform: uppercase;
