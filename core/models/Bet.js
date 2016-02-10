@@ -13,7 +13,8 @@ module.exports = function (sequelize, Sequelize) {
     value: Sequelize.STRING,
     active: Sequelize.BOOLEAN,
     answer: Sequelize.STRING,
-    desc: Sequelize.TEXT
+    desc: Sequelize.TEXT,
+    city: Sequelize.STRING
   }, {
     classMethods: {
       associate: function (models) {

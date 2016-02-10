@@ -16,6 +16,9 @@ module.exports = function (sequelize, Sequelize) {
     },
     amount: {
       type: Sequelize.INTEGER
+    },
+    rewards: {
+      type: Sequelize.STRING
     }
   });
 }

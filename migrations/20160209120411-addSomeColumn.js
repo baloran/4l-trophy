@@ -3,7 +3,7 @@
 module.exports = {
   up: function (queryInterface, Sequelize, done) {
     queryInterface.addColumn('Bets', 'city', Sequelize.STRING);
-    queryInterface.addColumn('BetsUsers', 'rewards', Sequelize.STRING);
+    queryInterface.addColumn('BetUsers', 'rewards', Sequelize.STRING);
     done();
   },
 
