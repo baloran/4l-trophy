@@ -281,8 +281,8 @@
 					input{
 						position:relative;
 						top: -38px;
-					  width: 100px;
-					  margin-right: 130px;
+					  	width: 100px;
+					  	margin-right: 80px;
 						float: right;
     					clear:both;
     					text-align: center;
@@ -356,10 +356,9 @@
 		}
 	}
 	input.send {
-		font-size: 12px;
 		line-height: 27px;
 		text-align: center;
-		width: 150px !important;
+		width: 250px !important;
 		height: 30px;
 		border:none;
 		text-transform: uppercase;
