@@ -90,7 +90,7 @@
             <form action="/bet/{{this.id}}" method="post">
               <label>VALEUR</label> <input type="text" placeholder="km" name="value"> 
               <label>MISE</label> <input type="text" placeholder="stylos" name="bet">
-              <input type="submit" value="VALIDER LE PARI">
+              <input class="send" type="submit" value="VALIDER LE PARI">
             </form>
           </div>
         </div>
@@ -98,19 +98,5 @@
     {{/each}}
     
   </article>
-  <footer>
-    <ul>
-      <li>
-        <img src="/assets/img/icons/paypal.png" alt="Paypal">
-      </li>
-      <li>
-        Les jeux d’argent et de hasard sont strictement interdits aux mineurs.
-      </li>
-        <li><a href="#">Mentions Légales</a></li>
-    </ul>
-  </footer>
-{{> connexion}}
-{{> signup}}
-{{> successful}}
 
 </section>
