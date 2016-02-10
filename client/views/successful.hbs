@@ -2,11 +2,11 @@
 
 	<div class="message">
 		<h2>Le pari est maintenant terminé !</h2>
-		<div class="expl">Votre avez gagné un solde de <b>53 stylos</b></div>
+		<div class="expl">Votre avez gagné un solde de <b>{{bet.amount}} stylos</b></div>
 		<div class="choice">Récupérez vos gains ou faites en dons à l’association et participez à l’effort des "Enfants du désert" !</div>
 		<div class="action">
-			<a href="">En faire don aux "Enfants du désert"</a>
-			<a href="">Récupérer le solde en bon d’achats</a>
+			<a href="/bet/{{bet.id}}/choice/don">En faire don aux "Enfants du désert"</a>
+			<a href="/bet/{{bet.id}}/choice/bon">Récupérer le solde en bon d’achats</a>
 		</div>
 	</div>
 
