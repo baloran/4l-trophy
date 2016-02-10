@@ -1,6 +1,7 @@
 var home        = require('../controllers/home'),
     express     = require('express'),
     passport    = require('passport'),
+    db          = require('../models'),
     homeRoutes;
 
 homeRoutes = function () {
@@ -37,6 +38,18 @@ homeRoutes = function () {
     router.get('/validWallet', home.validWallet);
 
     router.post('/validey', home.valideDay);
+ 
+    router.get('/about', function (req, res) {
+        res.render('about');
+    });
+
+    router.get('/cgu', function (req, res) {
+        res.render('cgu');
+    });
+
+    router.get('/rules', function (req, res) {
+        res.render('rules');
+    });
 
     return router;
 };
