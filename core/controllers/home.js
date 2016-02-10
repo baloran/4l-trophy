@@ -15,8 +15,13 @@ var mandrill = require('mandrill-api/mandrill');
 var mandrill_client = new mandrill.Mandrill('gfv3y4xjJGQqHSgHrD8Rxg');
 
 var win;
-fs.readFile('/client/email/winner.html', function (err, data) {
+fs.readFile('./client/email/winner.html', "utf-8", function (err, data) {
   win = data;
+});
+
+var pari;
+fs.readFile('./client/email/pari.html', "utf-8", function (err, data) {
+  pari = data;
 });
 
 homeCtrl = {
@@ -107,8 +112,10 @@ homeCtrl = {
 
           user.save();
 
+          console.log(win)
+
           var message = {
-            "html": "<p>Vous venez de faire un pari: </p><br><p>Vous venez de pariez " + req.body.bet + " stylos.</p> <br><br> <p>Avec comme valeur " + req.body.value + "km</p>",
+            "html": pari,
             "subject": "Bet Trophy",
             "from_email": "hello@baloran.fr",
             "to": [
@@ -256,63 +263,27 @@ homeCtrl = {
             [db.sequelize.fn('ABS', db.sequelize.condition(db.sequelize.col('value'), '-', curr)), 'ASC']
           ]}).then(function (b) {
 
-          if (b == null) {
-            return console.log("No user")
-          };
-
-          if (b[0].value == curr) {
-            db.User.findById(b[0].user_id).then(function (user) {
-              var message = {
-                "html": win,
-                "subject": "Bet Trophy",
-                "from_email": "hello@baloran.fr",
-                "to": [
-                  {
-                    "email": user.email,
-                    "name": user.first_name + " " + user.last_name,
-                    "type": "to"
-                  }
-                ],
-                "global_merge_vars": [
-                  {
-                      "name": "URL_GAIN",
-                      "content": "http://baloran.fr:6777/bet/" + b[0].id
-                  }
-                ],
-              }
-
-              mandrill_client.messages.send({"message": message}, function(result) {
-                  console.log(result);
-              }, function(e) {
-                  console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-              });
-            }).catch(function (err) {
-              console.log(err);
-            });
+          if (b.length < 1) {
+            console.log("No user")
           } else {
-
-            var userIds = _.map(b, function (item) {
-              return b.user_id;
-            });
-
-            db.User.findAll({where:{id: {$in : userIds}}}).then(function (users) {
-
-              _.each(user, function (item, index) {
-
+            if (b[0].value == curr) {
+              db.User.findById(b[0].user_id).then(function (user) {
                 var message = {
                   "html": win,
                   "subject": "Bet Trophy",
                   "from_email": "hello@baloran.fr",
-                  "to": {
-                    "email": item.email,
-                    "name": item.first_name + " " + item.last_name,
-                    "type": "to"
-                  },
+                  "to": [
+                    {
+                      "email": user.email,
+                      "name": user.first_name + " " + user.last_name,
+                      "type": "to"
+                    }
+                  ],
                   "global_merge_vars": [
-                      {
-                          "name": "URL_GAIN",
-                          "content": "http://baloran.fr:6777/bet/" + b[index].id
-                      }
+                    {
+                        "name": "URL_GAIN",
+                        "content": "http://baloran.fr:6777/bet/" + b[0].id
+                    }
                   ],
                 }
 
@@ -321,8 +292,50 @@ homeCtrl = {
                 }, function(e) {
                     console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
                 });
+              }).catch(function (err) {
+                console.log(err);
               });
+            } else {
+
+              console.log(b);
+
+              if (b.length > 1) {
+                var userIds = _.map(b, function (item) {
+                  return b.user_id;
+                });
+              } else {
+                var userIds = b[0].user_id;
+              }
+
+              db.User.findAll({where:{id: userIds}}).then(function (users) {
+
+                _.each(users, function (item, index) {
+
+                  var message = {
+                    "html": win,
+                    "subject": "Bet Trophy",
+                    "from_email": "hello@baloran.fr",
+                    "to": [{
+                      "email": item.email,
+                      "name": item.first_name + " " + item.last_name,
+                      "type": "to"
+                    }],
+                    "global_merge_vars": [
+                        {
+                            "name": "URL_GAIN",
+                            "content": "http://baloran.fr:6777/bet/" + b[index].id
+                        }
+                    ],
+                  }
+
+                  mandrill_client.messages.send({"message": message}, function(result) {
+                      console.log(result);
+                  }, function(e) {
+                      console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+                  });
+                });
               });
+            }
           }
         });
       });
@@ -361,6 +374,27 @@ homeCtrl = {
       ]).then(function (affectedRows) {
 
         
+      });
+    });
+  },
+
+  walletChoice: function (req,res) {
+
+    db.BetUser.findById(req.params.id).then(function (bet) {
+      res.render('successful', {
+        id: req.params.id,
+        bet: bet
+      });
+    });
+  },
+
+  makeChoice: function (req, res) {
+
+    db.BetUser.findById(req.params.id).then(function (bet) {
+
+      bet.rewards = req.params.type;
+      bet.save().then(function () {
+        res.redirect('/');
       });
     });
   }
