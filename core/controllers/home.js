@@ -77,6 +77,10 @@ homeCtrl = {
 
   createBet: function (req, res) {
 
+    if (req.body.bet < 1) {
+      return res.redirect('/bet');
+    };
+
     /**
      * TODO:
      *   - put this to a middleware
