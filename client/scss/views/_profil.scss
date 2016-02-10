@@ -356,11 +356,12 @@
 		}
 	}
 	input.send {
-		font-size: 15px;
+		font-size: 12px;
 		line-height: 27px;
 		text-align: center;
 		width: 150px;
 		height: 30px;
+		border:none;
 		text-transform: uppercase;
 		background-color: $orange;
 		text-decoration: none;
