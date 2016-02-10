@@ -77,7 +77,7 @@ homeCtrl = {
 
   createBet: function (req, res) {
 
-    if (req.body.bet < 1) {
+    if (req.body.bet < 14 ) {
       return res.redirect('/bet');
     };
 
